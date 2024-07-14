@@ -29,7 +29,7 @@ const CustomInput = ({
           id={name}
           name={name}
           type="text"
-          value={value}
+          value={value === 0 ? "" : value}
           onChange={onChange}
           onBlur={onBlur}
           className="min-w-0 px-2 border bg-none outline-none text-Slate-900 font-[500] text-sm flex-1"
