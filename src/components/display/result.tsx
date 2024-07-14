@@ -1,22 +1,31 @@
 import React from "react";
 import styles from "./display.module.css";
-const Result = ({ principal, annualInterestRate, loanTermInYears, type }) => {
+const Result = ({
+  principal,
+  annualInterestRate,
+  loanTermInYears,
+  type,
+}: {
+  principal: number;
+  annualInterestRate: number;
+  loanTermInYears: number;
+  type: number;
+}) => {
+  function formatNumberWithCommas(number:number):string {
+    return new Intl.NumberFormat('en-US').format(number);
+  }
   let resultText = "Your monthly repayments";
   let totalText = "Total you'll repay over the term";
-  function calculateMonthlyPayment(
-    principal,
-    annualInterestRate,
-    loanTermInYears
-  ) {
-    let monthlyPrinciple = principal / loanTermInYears / 12;
-    let monthlyInterestRate = parseFloat(annualInterestRate) / 12 / 100;
-    let numberOfPayments = parseInt(loanTermInYears) * 12;
+  function calculateMonthlyPayment():string {
+    let monthlyPrincipal = principal / loanTermInYears / 12;
+    let monthlyInterestRate = annualInterestRate / 12 / 100;
+    let numberOfPayments = loanTermInYears * 12;
     let monthlyPayment =
       (principal *
         (monthlyInterestRate *
           Math.pow(1 + monthlyInterestRate, numberOfPayments))) /
       (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
-    const interest = monthlyPayment - monthlyPrinciple;
+    const interest = monthlyPayment - monthlyPrincipal;
     if (type == 2) {
       resultText = "Your monthly interest payment";
       totalText = "Total interest you'll pay over the term";
@@ -24,13 +33,14 @@ const Result = ({ principal, annualInterestRate, loanTermInYears, type }) => {
     }
     return monthlyPayment.toFixed(2);
   }
-  const result = calculateMonthlyPayment(
-    principal,
-    annualInterestRate,
-    loanTermInYears
+  let result = calculateMonthlyPayment();
+
+  let total = (parseFloat(result) * 12 * loanTermInYears).toFixed(
+    2
   );
 
-  const total = (parseFloat(result) * 12 * loanTermInYears).toFixed(2);
+  total = formatNumberWithCommas(parseFloat(total))
+  result = formatNumberWithCommas(parseFloat(result));
 
   return (
     <div className="h-full bg-ResultBg py-4 px-3 md:py-6 md:px-6 md:rounded-b-2xl flex flex-col gap-4 lg:pb-16 lg:rounded-bl-[56px]">

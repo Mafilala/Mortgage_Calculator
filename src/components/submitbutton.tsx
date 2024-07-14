@@ -1,9 +1,12 @@
 import React from "react";
 import Calculator from "./calculator";
-const Submitbutton = ({ onClick }) => {
+import { FormikHandlers } from "formik";
+
+type HandleSubmit = FormikHandlers["handleSubmit"];
+const Submitbutton = ({ onClick }: { onClick: HandleSubmit }) => {
   return (
     <div
-      onClick={onClick}
+      onClick={() => onClick()}
       className="w-full flex justify-center items-center rounded-3xl bg-Lime h-9 cursor-pointer md:w-1/2 lg:w-2/3"
     >
       <Calculator />

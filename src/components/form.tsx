@@ -1,23 +1,24 @@
 "use client";
 import React, { useRef } from "react";
-import { Formik, Form } from "formik";
+import { Formik, Form, FormikProps } from "formik";
 import validationSchema from "@/validationSchema";
 import CustomInput from "./InputElement";
 import Submitbutton from "./submitbutton";
 import MortgageType from "@/components/mortgageType";
 import Wait from "./display/wait";
 import Result from "./display/result";
+import { FormikHelpers, FormValues } from "@/type";
 const MortgageForm = () => {
-  const formikRef = useRef(null);
+  const formikRef = useRef<FormikProps<FormValues>>(null);
   const [isResult, setIsResult] = React.useState(false);
   const initialValues = {
-    amount: "",
-    rate: "",
-    term: "",
-    type: null,
+    amount: 0,
+    rate: 0,
+    term: 0,
+    type: 0,
   };
 
-  const onSubmit = (values, { setSubmitting }) => {
+  const onSubmit = (values: FormValues, { setSubmitting }: FormikHelpers) => {
     setIsResult(true);
     setSubmitting(false);
   };
@@ -66,9 +67,7 @@ const MortgageForm = () => {
                 value={values.amount}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={
-                  touched.amount && errors.amount ? errors.amount : undefined
-                }
+                error={touched.amount && errors.amount ? errors.amount : ""}
               />
               <div className="md:grid md:grid-cols-2 md:gap-4">
                 <CustomInput
@@ -80,7 +79,7 @@ const MortgageForm = () => {
                   value={values.term}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={touched.term && errors.term ? errors.term : undefined}
+                  error={touched.term && errors.term ? errors.term : ""}
                 />
                 <CustomInput
                   className=""
@@ -91,13 +90,13 @@ const MortgageForm = () => {
                   value={values.rate}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={touched.rate && errors.rate ? errors.rate : undefined}
+                  error={touched.rate && errors.rate ? errors.rate : ""}
                 />
               </div>
               <MortgageType
                 setFieldValue={setFieldValue}
                 values={values}
-                error={touched.type && errors.type ? errors.type : undefined}
+                error={touched.type && errors.type ? errors.type : ""}
               />
 
               <Submitbutton onClick={handleSubmit} />
